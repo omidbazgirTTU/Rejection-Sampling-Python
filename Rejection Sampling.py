@@ -23,17 +23,9 @@ import scipy
 
 
 # Copula
-mean = [0.4, 0.9]
-cov = [[2, 0.3], [0.3, 2]]  # diagonal covariance
-#x, y = np.random.multivariate_normal(mean, cov, 100).T
 x = np.random.uniform(0.01,0.99,1000); y = np.random.uniform(0.01,0.99,1000)
 X_CDF= scipy.stats.norm.cdf(x,y)
 X_PDF = norm.ppf(X_CDF)
-#plt.hist(X_PDF)
-#plt.show()
-#x = abs((x - min(x) - 0.01) /(max(x) - min(x) + 0.01))
-#y = abs((y - min(y) - 0.01) /(max(y) - min(y) + 0.01))
-
 
 def Kumaraswamy(X,Y):
     #A1 = 0.3; A2 = 2*A1; Theta = 0.5
@@ -56,19 +48,14 @@ Z = Kumaraswamy(X1,X2)
 print(X1.shape)
 print(Z.shape)
 
-## Random Numbers
-#samplex = np.random.uniform(0.01,1,100)
-#sampley = np.random.uniform(0.01,1,100)
 samplex = x
 sampley = y
 ## Rejection Sampling
 accept = [None] * len(samplex)
 KS = np.zeros(len(samplex))
 for i in range(0,len(samplex)):
-    #BetEst = TwoDBeta(samplex[i],sampley[i])
     BetEst = X_PDF[i]
     C = 10
-    #U = np.random.uniform(0.0,BetEst,1)
     U = 1
     KS[i] = Kumaraswamy(samplex[i],sampley[i])
     if(C*U*BetEst <= KS[i] ):
@@ -92,34 +79,8 @@ ax.scatter(Xplot,Yplot,Zplot,c='red')
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z');
-#rotate the axes and update
-#for angle in range(0, 360):
-#    ax.view_init(45, angle)
-#    plt.draw()
-#    plt.pause(0.001)
 
 
-# In[47]:
-
-
-from scipy.stats import norm
-import scipy
-# Copula
-mean = [0, 0]
-cov = [[1, 0], [0, 1]]  # diagonal covariance
-x, y = np.random.multivariate_normal(mean, cov, 50).T
-X_CDF= scipy.stats.norm.cdf(x,y)
-X_PDF = norm.ppf(X_CDF)
-plt.hist(X_PDF)
-plt.show()
-x = abs((x - min(x) - 0.01) /(max(x) - min(x) + 0.01))
-y = abs((y - min(y) - 0.01) /(max(y) - min(y) + 0.01))
-print(max(x), min(x), max(y), min(y))
-fig2 = plt.figure()
-plt.hist(x)
-
-
-# In[ ]:
 
 
 
